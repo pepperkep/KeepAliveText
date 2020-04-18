@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private string currentTextInput;
     private List<string> texts = new List<string>();
     private int textsIndex = 0;
-    private string correctText = "The quick brown fox jumps\nover the lazy dog";
+    private string correctText = "Please send help ASAP. There's a man who broke in to the house and he's looking for cookies.";
     private List<int> correctnessList = new List<int>();
     private int correctIndex;
 
@@ -28,11 +28,11 @@ public class GameManager : MonoBehaviour
     {
         drainRoutine = DrainBattery(drainAmount, drainInterval);
         StartCoroutine(drainRoutine);
-        texts.Add("The quick brown fox jumps\nover the lazy dog");
-        texts.Add("Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit, sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.");
+        LoadText lt=gameObject.GetComponent(typeof(LoadText)) as LoadText;
+        texts=lt.getMyTexts();
         currentTextInput = "";
         correctIndex = 0;
-        screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power); 
+        screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
     }
 
     // Update is called once per frame
@@ -57,8 +57,8 @@ public class GameManager : MonoBehaviour
                 correctnessList = new List<int>();
                 correctIndex = 0;
                 textsIndex = (textsIndex + 1) % texts.Count;
-                correctText = texts[textsIndex]; 
-                screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);   
+                correctText = texts[textsIndex];
+                screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
             }
             else
             {
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
             totalTime += interval;
             Power -= amount.Evaluate(totalTime);
             screen.SetBatteryText(power);
-            screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power); 
+            screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
         }
     }
 }

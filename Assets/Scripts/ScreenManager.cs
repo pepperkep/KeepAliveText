@@ -31,7 +31,7 @@ public class ScreenManager : MonoBehaviour
 
         if(mainText.textInfo.characterInfo[characterIndex].character == 32 || !mainText.textInfo.characterInfo[characterIndex].isVisible)
             return;
-        
+
         Color32 nextColor;
         switch(correctnessValue)
         {
@@ -69,7 +69,7 @@ public class ScreenManager : MonoBehaviour
 
             if(mainText.textInfo.characterInfo[i].character == 32 || !mainText.textInfo.characterInfo[i].isVisible)
                 continue;
-            
+
             Color32 nextColor;
             if(i < correctnessValues.Length)
             {

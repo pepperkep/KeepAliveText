@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
                 if (currentTextInput.Length != 0)
                 {
                     currentTextInput = currentTextInput.Substring(0, currentTextInput.Length - 1);
+                    screen.UpdateCharacterColor(correctnessList.Count - 1, 0);
                     correctnessList.RemoveAt(correctnessList.Count - 1);
                     correctIndex--;
                 }
@@ -55,20 +56,26 @@ public class GameManager : MonoBehaviour
                 correctnessList = new List<int>();
                 correctIndex = 0;
                 textsIndex = (textsIndex + 1) % texts.Count;
-                correctText = texts[textsIndex];    
+                correctText = texts[textsIndex]; 
+                screen.UpdateScreenText(correctText, correctnessList.ToArray());   
             }
             else
             {
                 currentTextInput += c;
                 if(correctIndex < correctText.Length && (c == correctText[correctIndex] ||
                     (c == ' ' && correctText[correctIndex] == '\n')))
+                {
+                    screen.UpdateCharacterColor(correctnessList.Count, 1);
                     correctnessList.Add(1);
+                }
                 else
+                {
+                    screen.UpdateCharacterColor(correctnessList.Count, 2);
                     correctnessList.Add(2);
+                }
                 correctIndex++;
             }
         }
-        screen.UpdateScreenText(correctText, correctnessList.ToArray());
     }
 
     private void AddBattery(List<int> correctness)

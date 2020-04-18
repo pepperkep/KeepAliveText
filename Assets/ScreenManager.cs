@@ -22,6 +22,36 @@ public class ScreenManager : MonoBehaviour
         batteryText.text = nextBatteryText;
     }
 
+    public void UpdateCharacterColor(int characterIndex, int correctnessValue)
+    {
+        int materialIndex = mainText.textInfo.characterInfo[characterIndex].materialReferenceIndex;
+        Color32[] nextColors = mainText.textInfo.meshInfo[materialIndex].colors32;
+        int vertexIndex = mainText.textInfo.characterInfo[characterIndex].vertexIndex;
+
+        if(mainText.textInfo.characterInfo[characterIndex].character == 32 || !mainText.textInfo.characterInfo[characterIndex].isVisible)
+            return;
+        
+        Color32 nextColor;
+        switch(correctnessValue)
+        {
+            case 1:
+                nextColor = correctColor;
+                break;
+            case 2:
+                nextColor = wrongColor;
+                break;
+            default:
+                nextColor = defaultColor;
+                break;
+        }
+
+        for(int j = 0; j < 4; j++)
+        {
+            nextColors[vertexIndex + j] = nextColor;
+        }
+        mainText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+    }
+
     /*
         Correctness values: 0 none, 1 correct, 2 incorrect
      */

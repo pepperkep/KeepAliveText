@@ -13,20 +13,20 @@ public class LoadText : MonoBehaviour
   public List<string> myTexts;
 
 
-  public List<string> getMyTexts(){
-  return this.myTexts;
-}
+  public List<string> GetMyTexts(){
+    return this.myTexts;
+  }
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
       myTexts=TextAssetToList(texts);
       
     }
 
     public List<string> TextAssetToList(TextAsset ta)
-      {
+    {
           var listToReturn = new List<string>();
           var arrayString = ta.text.Split('\n');
           foreach (var line in arrayString)
@@ -34,14 +34,5 @@ public class LoadText : MonoBehaviour
               listToReturn.Add(line);
           }
           return listToReturn;
-      }
-
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

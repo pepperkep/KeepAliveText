@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<char> glitchingCharacters = new List<char>();
     [SerializeField] private int minGlitchAmount = 1;
     [SerializeField] private int maxGlitchAmount = 3;
+    private int textsIndex = 0;
     private IEnumerator drainRoutine;
     private string currentTextInput;
     private List<string> texts = new List<string>();
@@ -32,7 +33,8 @@ public class GameManager : MonoBehaviour
         drainRoutine = DrainBattery(drainAmount, drainInterval);
         StartCoroutine(drainRoutine);
         LoadText lt=gameObject.GetComponent(typeof(LoadText)) as LoadText;
-        texts=lt.getMyTexts();
+        textsIndex = 0;
+        texts=lt.GetMyTexts();
         currentTextInput = "";
         correctIndex = 0;
         glitchedText = correctText;

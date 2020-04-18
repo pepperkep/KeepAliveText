@@ -8,9 +8,10 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI batteryText;
     [SerializeField] private TextMeshProUGUI mainText;
-    [SerializeField] private Color32 defaultColor;
-    [SerializeField] private Color32 correctColor;
-    [SerializeField] private Color32 wrongColor;
+    [SerializeField] private Color defaultColor;
+    [SerializeField] private Color correctColor;
+    [SerializeField] private Color wrongColor;
+    [SerializeField] private AnimationCurve brightnessChange;
 
     public void SetBatteryText(float batteryValue)
     {
@@ -22,7 +23,7 @@ public class ScreenManager : MonoBehaviour
         batteryText.text = nextBatteryText;
     }
 
-    public void UpdateCharacterColor(int characterIndex, int correctnessValue)
+    public void UpdateCharacterColor(int characterIndex, int correctnessValue, float battery)
     {
         int materialIndex = mainText.textInfo.characterInfo[characterIndex].materialReferenceIndex;
         Color32[] nextColors = mainText.textInfo.meshInfo[materialIndex].colors32;
@@ -35,13 +36,13 @@ public class ScreenManager : MonoBehaviour
         switch(correctnessValue)
         {
             case 1:
-                nextColor = correctColor;
+                nextColor = ChangeBrightness(correctColor, brightnessChange.Evaluate(battery));
                 break;
             case 2:
-                nextColor = wrongColor;
+                nextColor = ChangeBrightness(wrongColor, brightnessChange.Evaluate(battery));
                 break;
             default:
-                nextColor = defaultColor;
+                nextColor = ChangeBrightness(defaultColor, brightnessChange.Evaluate(battery));
                 break;
         }
 
@@ -55,7 +56,7 @@ public class ScreenManager : MonoBehaviour
     /*
         Correctness values: 0 none, 1 correct, 2 incorrect
      */
-    public void UpdateScreenText(string screenText, int[] correctnessValues)
+    public void UpdateScreenText(string screenText, int[] correctnessValues, float battery)
     {
         mainText.text = screenText;
         mainText.ForceMeshUpdate();
@@ -75,19 +76,19 @@ public class ScreenManager : MonoBehaviour
                 switch(correctnessValues[i])
                 {
                     case 1:
-                        nextColor = correctColor;
+                        nextColor = ChangeBrightness(correctColor, brightnessChange.Evaluate(battery));
                         break;
                     case 2:
-                        nextColor = wrongColor;
+                        nextColor = ChangeBrightness(wrongColor, brightnessChange.Evaluate(battery));
                         break;
                     default:
-                        nextColor = defaultColor;
+                        nextColor = ChangeBrightness(defaultColor, brightnessChange.Evaluate(battery));
                         break;
                 }
             }
             else
             {
-                nextColor = defaultColor;
+                nextColor = ChangeBrightness(defaultColor, brightnessChange.Evaluate(battery));
             }
 
             for(int j = 0; j < 4; j++)
@@ -98,15 +99,10 @@ public class ScreenManager : MonoBehaviour
         mainText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private Color ChangeBrightness(Color originalColor, float brightnessLevel)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        float H, S, V;
+        Color.RGBToHSV(originalColor, out H, out S, out V);
+        return Color.HSVToRGB(H, S, V * brightnessLevel / 100);
     }
 }

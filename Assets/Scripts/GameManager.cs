@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
         texts.Add("Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit, sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.");
         currentTextInput = "";
         correctIndex = 0;
+        screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power); 
     }
 
     // Update is called once per frame
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
                 if (currentTextInput.Length != 0)
                 {
                     currentTextInput = currentTextInput.Substring(0, currentTextInput.Length - 1);
-                    screen.UpdateCharacterColor(correctnessList.Count - 1, 0);
+                    screen.UpdateCharacterColor(correctnessList.Count - 1, 0, Power);
                     correctnessList.RemoveAt(correctnessList.Count - 1);
                     correctIndex--;
                 }
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
                 correctIndex = 0;
                 textsIndex = (textsIndex + 1) % texts.Count;
                 correctText = texts[textsIndex]; 
-                screen.UpdateScreenText(correctText, correctnessList.ToArray());   
+                screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);   
             }
             else
             {
@@ -65,12 +66,12 @@ public class GameManager : MonoBehaviour
                 if(correctIndex < correctText.Length && (c == correctText[correctIndex] ||
                     (c == ' ' && correctText[correctIndex] == '\n')))
                 {
-                    screen.UpdateCharacterColor(correctnessList.Count, 1);
+                    screen.UpdateCharacterColor(correctnessList.Count, 1, Power);
                     correctnessList.Add(1);
                 }
                 else
                 {
-                    screen.UpdateCharacterColor(correctnessList.Count, 2);
+                    screen.UpdateCharacterColor(correctnessList.Count, 2, Power);
                     correctnessList.Add(2);
                 }
                 correctIndex++;
@@ -90,6 +91,8 @@ public class GameManager : MonoBehaviour
             Power = 100;
         else
             Power += addedEnergy;
+        screen.SetBatteryText(power);
+        screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
     }
 
     private IEnumerator DrainBattery(AnimationCurve amount, float interval)
@@ -101,6 +104,7 @@ public class GameManager : MonoBehaviour
             totalTime += interval;
             Power -= amount.Evaluate(totalTime);
             screen.SetBatteryText(power);
+            screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power); 
         }
     }
 }

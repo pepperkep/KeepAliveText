@@ -271,17 +271,17 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1.5
       inSlope: 0
-      outSlope: 0.006666667
+      outSlope: 0.008333334
       tangentMode: 69
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 300
-      value: 2.5
-      inSlope: 0.006666667
+      value: 4
+      inSlope: 0.008333334
       outSlope: 0
       tangentMode: 69
       weightedMode: 0
@@ -291,7 +291,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   drainInterval: 1
-  correctnessToEnergyConversion: 10
+  correctnessToEnergyConversion: 2
   screen: {fileID: 1211924691}
 --- !u!4 &362914673
 Transform:
@@ -718,15 +718,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   batteryText: {fileID: 690355540}
   mainText: {fileID: 1519601210}
-  defaultColor:
+  defaultColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
+  correctColor: {r: 0, g: 1, b: 0.04705882, a: 1}
+  wrongColor: {r: 1, g: 0, b: 0, a: 1}
+  brightnessChange:
     serializedVersion: 2
-    rgba: 4292467163
-  correctColor:
-    serializedVersion: 2
-    rgba: 4281466624
-  wrongColor:
-    serializedVersion: 2
-    rgba: 4278190335
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 40
+      inSlope: 0
+      outSlope: 0.072118
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.041412726
+    - serializedVersion: 3
+      time: 100
+      value: 100
+      inSlope: 1.6526738
+      outSlope: 0
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.021751251
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1519601208
 GameObject:
   m_ObjectHideFlags: 0

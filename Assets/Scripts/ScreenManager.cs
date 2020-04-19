@@ -128,7 +128,7 @@ public class ScreenManager : MonoBehaviour
         {
             int lineStart = mainText.textInfo.lineInfo[i].firstCharacterIndex;
             int lineEnd = mainText.textInfo.lineInfo[i].lastCharacterIndex;
-            if(lineEnd - (lineStart + columnToSwap + 1) > 0 && lineStart + columnToSwap < mainText.text.Length)
+            if(lineEnd - (lineStart + columnToSwap + 1) > 0 && lineStart + columnToSwap + 1 < mainText.text.Length)
             {
                 temp = mainText.text[mainText.textInfo.lineInfo[i].firstVisibleCharacterIndex + columnToSwap];
                 if(temp != '\n')

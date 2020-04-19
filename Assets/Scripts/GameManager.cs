@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int minGlitchAmount = 1;
     [SerializeField] private int maxGlitchAmount = 3;
     [SerializeField] private List<int> glitchLevels;
-    [SerializeField] private List<int> columnSwapLevels;
-    [SerializeField] private int maxColumnToSwap = 28;
     private int textsIndex = 0;
     private IEnumerator drainRoutine;
     private string currentTextInput;
@@ -22,9 +20,9 @@ public class GameManager : MonoBehaviour
     private string correctText = "Please send help ASAP. There's a man who broke into the house and he's looking for cookies.";
     private string glitchedText;
     private int glitchLevel;
-    private int columnLevel;
     private List<int> correctnessList = new List<int>();
     private int correctIndex;
+    private bool lowHealth=false;
     private bool gameOver = false;
 
     public float Power
@@ -46,7 +44,6 @@ public class GameManager : MonoBehaviour
         correctText = texts[0];
         glitchedText = correctText;
         glitchLevel = 0;
-        columnLevel = 0;
         screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
     }
 
@@ -70,11 +67,11 @@ public class GameManager : MonoBehaviour
                 else if ((c == '\n') || (c == '\r')) // enter/return
                 {
                     AddBattery(correctnessList);
+                    JukeBox.Instance().playMessageSentSound();
                     currentTextInput = "";
                     correctnessList = new List<int>();
                     correctIndex = 0;
                     glitchLevel = 0;
-                    columnLevel = 0;
                     textsIndex = (textsIndex + 1) % texts.Count;
                     correctText = texts[textsIndex];
                     glitchedText = correctText;
@@ -89,11 +86,13 @@ public class GameManager : MonoBehaviour
                         {
                             screen.UpdateCharacterColor(correctnessList.Count, 1, Power);
                             correctnessList.Add(1);
+                            JukeBox.Instance().playRightWordSound();
                         }
                         else
                         {
                             screen.UpdateCharacterColor(correctnessList.Count, 2, Power);
                             correctnessList.Add(2);
+                            JukeBox.Instance().playWrongWordSound();
                         }
                     }
                     correctIndex++;
@@ -133,10 +132,17 @@ public class GameManager : MonoBehaviour
         else
             Power += addedEnergy;
         screen.SetBatteryText(Power);
-        if(Power < 0)
+        if(Power < 0){
             gameOver = true;
+            JukeBox.Instance().playLoseSound();
+          }
         else
             screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
+       if(Power>=25.0){
+              lowHealth=false;
+              JukeBox.Instance().pauseLowHealthSound();
+            }
+
     }
 
     private string ReplaceTextSymbols(string originalText, int glitchAmount)
@@ -177,19 +183,18 @@ public class GameManager : MonoBehaviour
             int currentGlitch = glitchLevels[(int)(Power / 10)];
             glitchedText = ReplaceTextSymbols(glitchedText, currentGlitch - glitchLevel);
             glitchLevel = currentGlitch;
-            int currentColumns = columnSwapLevels[(int)((Power + 0.5f) / 10)];
-            int columnsNeeded = currentColumns - columnLevel;
-            columnLevel = currentColumns;
-            List<int> columnsToSwap = new List<int>();
-            for(int i = 0; i < columnsNeeded; i++)
-            {
-                columnsToSwap.Add(Random.Range(0, maxColumnToSwap));
-            }
             screen.SetBatteryText(power);
-            screen.UpdateScreenText(glitchedText, correctnessList.ToArray(), Power, columnsToSwap);
-            glitchedText = screen.Text;
+            screen.UpdateScreenText(glitchedText, correctnessList.ToArray(), Power);
             yield return new WaitForSeconds(interval);
+            if(Power<=25.0 && !lowHealth && !gameOver){
+              lowHealth=true;
+              JukeBox.Instance().playLowHealthSound();
+            }
         }
         gameOver = true;
+        JukeBox.Instance().pauseLowHealthSound();
+        JukeBox.Instance().playLoseSound();
     }
+
+
 }

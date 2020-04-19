@@ -74,7 +74,7 @@ public class ScreenManager : MonoBehaviour
     {
         mainText.text = screenText;
         mainText.ForceMeshUpdate();
-        //SwapTextColumns(19);
+        //SwapTextColumns(29);
         if(columnsToSwap != null)
         {
             for(int i = 0; i < columnsToSwap.Count; i++)
@@ -164,11 +164,19 @@ public class ScreenManager : MonoBehaviour
         int firstlineEnd = mainText.textInfo.lineInfo[0].lastCharacterIndex;
         if(firstlineEnd - (firstlineStart + columnToSwap + 1) > 0 && firstlineStart + columnToSwap + 1 < firstlineEnd)
         {
-            if(firstlineStart + columnToSwap != firstlineEnd)
-                textByLine.Insert(0, mainText.text.Substring(firstlineStart, columnToSwap) + nextChar
-                    + mainText.text.Substring(firstlineStart + columnToSwap + 1, firstlineEnd - (firstlineStart + columnToSwap)));
+            if(nextChar != '\n')
+            {
+                if(firstlineStart + columnToSwap != firstlineEnd)
+                    textByLine.Insert(0, mainText.text.Substring(firstlineStart, columnToSwap) + nextChar
+                        + mainText.text.Substring(firstlineStart + columnToSwap + 1, firstlineEnd - (firstlineStart + columnToSwap)));
+                else
+                    textByLine.Insert(0, mainText.text.Substring(firstlineStart, columnToSwap) + nextChar);
+            }
             else
-                textByLine.Insert(0, mainText.text.Substring(firstlineStart, columnToSwap) + nextChar);
+            {
+                if(firstlineEnd < mainText.text.Length && firstlineEnd - firstlineStart > 0)
+                    textByLine.Insert(0, mainText.text.Substring(firstlineStart, firstlineEnd + 1 - firstlineStart));
+            }
         }
         else
         {

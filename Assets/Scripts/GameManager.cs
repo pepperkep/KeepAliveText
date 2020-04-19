@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int minGlitchAmount = 1;
     [SerializeField] private int maxGlitchAmount = 3;
     [SerializeField] private List<int> glitchLevels;
+    [SerializeField] private List<int> columnSwapLevels;
+    [SerializeField] private int maxColumnToSwap = 28;
     private int textsIndex = 0;
     private IEnumerator drainRoutine;
     private string currentTextInput;
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviour
     private string correctText = "Please send help ASAP. There's a man who broke into the house and he's looking for cookies.";
     private string glitchedText;
     private int glitchLevel;
+    private int columnLevel;
     private List<int> correctnessList = new List<int>();
     private int correctIndex;
     private bool lowHealth=false;
@@ -44,6 +47,7 @@ public class GameManager : MonoBehaviour
         correctText = texts[0];
         glitchedText = correctText;
         glitchLevel = 0;
+        columnLevel = 0;
         screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
     }
 
@@ -72,6 +76,7 @@ public class GameManager : MonoBehaviour
                     correctnessList = new List<int>();
                     correctIndex = 0;
                     glitchLevel = 0;
+                    columnLevel = 0;
                     textsIndex = (textsIndex + 1) % texts.Count;
                     correctText = texts[textsIndex];
                     glitchedText = correctText;
@@ -157,11 +162,14 @@ public class GameManager : MonoBehaviour
                 int glitchIndex = Random.Range(0, words.Length);
                 string glitchWord = words[glitchIndex];
                 int letterIndex = Random.Range(0, glitchWord.Length);
-                if(letterIndex != glitchWord.Length)
-                    words[glitchIndex] = glitchWord.Substring(0, letterIndex) + glitchingCharacters[Random.Range(0, glitchingCharacters.Count)]
-                                                + glitchWord.Substring(letterIndex + 1);
-                else
-                    words[glitchIndex] = glitchWord.Substring(0, letterIndex) + glitchingCharacters[Random.Range(0, glitchingCharacters.Count)];
+                if(glitchWord[letterIndex] != '\n')
+                {
+                    if(letterIndex != glitchWord.Length - 1)
+                        words[glitchIndex] = glitchWord.Substring(0, letterIndex) + glitchingCharacters[Random.Range(0, glitchingCharacters.Count)]
+                                                    + glitchWord.Substring(letterIndex + 1);
+                    else
+                        words[glitchIndex] = glitchWord.Substring(0, letterIndex) + glitchingCharacters[Random.Range(0, glitchingCharacters.Count)];
+                }
             }
         }
         string finalText = "";
@@ -183,8 +191,17 @@ public class GameManager : MonoBehaviour
             int currentGlitch = glitchLevels[(int)(Power / 10)];
             glitchedText = ReplaceTextSymbols(glitchedText, currentGlitch - glitchLevel);
             glitchLevel = currentGlitch;
+            int currentColumns = columnSwapLevels[(int)((Power + 0.5f) / 10)];
+            int columnsNeeded = currentColumns - columnLevel;
+            columnLevel = currentColumns;
+            List<int> columnsToSwap = new List<int>();
+            for(int i = 0; i < columnsNeeded; i++)
+            {
+                columnsToSwap.Add(Random.Range(0, maxColumnToSwap));
+            }
+            screen.UpdateScreenText(glitchedText, correctnessList.ToArray(), Power, columnsToSwap);
+            glitchedText = screen.Text;
             screen.SetBatteryText(power);
-            screen.UpdateScreenText(glitchedText, correctnessList.ToArray(), Power);
             yield return new WaitForSeconds(interval);
             if(Power<=25.0 && !lowHealth && !gameOver){
               lowHealth=true;

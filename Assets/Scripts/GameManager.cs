@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
         texts=lt.GetMyTexts();
         currentTextInput = "";
         correctIndex = 0;
+        correctText = texts[0];
         glitchedText = correctText;
         glitchLevel = 0;
         columnLevel = 0;
@@ -140,7 +141,7 @@ public class GameManager : MonoBehaviour
 
     private string ReplaceTextSymbols(string originalText, int glitchAmount)
     {
-        char[] delimiterChars = {' ', '\n', '\t' };
+        char[] delimiterChars = {' ', '\t' };
         string[] words = originalText.Split(delimiterChars);
         for(int i = 0; i < glitchAmount; i++)
         {

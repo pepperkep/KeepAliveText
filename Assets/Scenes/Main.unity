@@ -1229,8 +1229,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Please send help ASAP. There's a man who broke into the house and he's
-    looking for cookies.
+  m_text: Do you think ants ever look at one another and go'Hmmmmmm, that's a THICC
+    thorax. As you can probably tell I have not felt the touch of a human in several
+    weeks. I would quite like a hug right now.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db4a68ca8e2996a8183125c3b28ebe44, type: 2}
   m_sharedMaterial: {fileID: 7860215357021726395, guid: db4a68ca8e2996a8183125c3b28ebe44,
@@ -1273,7 +1274,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_firstOverflowCharacterIndex: -1
@@ -1300,12 +1301,12 @@ MonoBehaviour:
   m_margin: {x: -859.1876, y: -511.3341, z: -650.92755, w: -516.64996}
   m_textInfo:
     textComponent: {fileID: 1519601210}
-    characterCount: 91
+    characterCount: 197
     spriteCount: 0
-    spaceCount: 16
-    wordCount: 17
+    spaceCount: 39
+    wordCount: 40
     linkCount: 0
-    lineCount: 3
+    lineCount: 1
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0

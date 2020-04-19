@@ -22,10 +22,18 @@ public class ScreenManager : MonoBehaviour
     public void SetBatteryText(float batteryValue)
     {
         float roundedValue = Mathf.Round(batteryValue * 10) / 10;
-        string nextBatteryText = "" + roundedValue;
-        if(roundedValue % 1 == 0)
-            nextBatteryText += ".0";
-        nextBatteryText += "%";
+        string nextBatteryText;
+        if(batteryValue == 100)
+        {
+            nextBatteryText = "100%";
+        }
+        else
+        {
+            nextBatteryText = "" + roundedValue;
+            if(roundedValue % 1 == 0)
+                nextBatteryText += ".0";
+            nextBatteryText += "%";
+        }
         batteryText.text = nextBatteryText;
     }
 
@@ -66,6 +74,7 @@ public class ScreenManager : MonoBehaviour
     {
         mainText.text = screenText;
         mainText.ForceMeshUpdate();
+        //SwapTextColumns(19);
         if(columnsToSwap != null)
         {
             for(int i = 0; i < columnsToSwap.Count; i++)
@@ -128,12 +137,12 @@ public class ScreenManager : MonoBehaviour
         {
             int lineStart = mainText.textInfo.lineInfo[i].firstCharacterIndex;
             int lineEnd = mainText.textInfo.lineInfo[i].lastCharacterIndex;
-            if(lineEnd - (lineStart + columnToSwap + 1) > 0 && lineStart + columnToSwap + 1 < mainText.text.Length)
+            if(lineEnd - (lineStart + columnToSwap + 1) >= 0 && lineStart + columnToSwap + 1 < lineEnd && lineEnd < mainText.text.Length)
             {
-                temp = mainText.text[mainText.textInfo.lineInfo[i].firstVisibleCharacterIndex + columnToSwap];
-                if(temp != '\n')
+                temp = mainText.text[lineStart + columnToSwap];
+                if(temp != '\n' && nextChar != '\n')
                 {
-                    if(lineStart + columnToSwap != lineEnd)
+                    if(lineStart + columnToSwap + 1 < lineEnd)
                         textByLine.Add(mainText.text.Substring(lineStart, columnToSwap) + nextChar
                             + mainText.text.Substring(lineStart + columnToSwap + 1, lineEnd - (lineStart + columnToSwap)));
                     else
@@ -142,18 +151,18 @@ public class ScreenManager : MonoBehaviour
                 }
                 else
                 {
-                    textByLine.Add(mainText.text.Substring(lineStart, lineEnd - lineStart));
+                    textByLine.Add(mainText.text.Substring(lineStart, lineEnd + 1 - lineStart));
                 }
             }
             else
             {
-                if(lineEnd < mainText.text.Length)
-                    textByLine.Add(mainText.text.Substring(lineStart, lineEnd - lineStart));
+                if(lineEnd < mainText.text.Length && lineEnd - lineStart > 0)
+                    textByLine.Add(mainText.text.Substring(lineStart, lineEnd + 1 - lineStart));
             }
         }
-        int firstlineStart = mainText.textInfo.lineInfo[0].firstVisibleCharacterIndex;
+        int firstlineStart = mainText.textInfo.lineInfo[0].firstCharacterIndex;
         int firstlineEnd = mainText.textInfo.lineInfo[0].lastCharacterIndex;
-        if(firstlineEnd - (firstlineStart + columnToSwap + 1) > 0)
+        if(firstlineEnd - (firstlineStart + columnToSwap + 1) > 0 && firstlineStart + columnToSwap + 1 < firstlineEnd)
         {
             if(firstlineStart + columnToSwap != firstlineEnd)
                 textByLine.Insert(0, mainText.text.Substring(firstlineStart, columnToSwap) + nextChar
@@ -163,7 +172,7 @@ public class ScreenManager : MonoBehaviour
         }
         else
         {
-            textByLine.Add(mainText.text.Substring(firstlineStart, firstlineEnd - firstlineStart));
+            textByLine.Insert(0, mainText.text.Substring(firstlineStart, firstlineEnd + 1 - firstlineStart));
         }
         string nextText = "";
         foreach(string line in textByLine)

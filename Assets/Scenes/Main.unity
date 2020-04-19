@@ -292,11 +292,12 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   drainInterval: 1
-  correctnessToEnergyConversion: 2
+  correctnessToEnergyConversion: 4
   screen: {fileID: 1211924691}
   glitchingCharacters: b300ba25a4003020d7005e202620f000a700f50b
   minGlitchAmount: 1
   maxGlitchAmount: 3
+  glitchLevels: 0500000004000000030000000300000002000000020000000100000001000000000000000000000000000000
 --- !u!4 &362914673
 Transform:
   m_ObjectHideFlags: 0

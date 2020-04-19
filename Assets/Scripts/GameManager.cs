@@ -12,12 +12,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<char> glitchingCharacters = new List<char>();
     [SerializeField] private int minGlitchAmount = 1;
     [SerializeField] private int maxGlitchAmount = 3;
+    [SerializeField] private List<int> glitchLevels;
     private int textsIndex = 0;
     private IEnumerator drainRoutine;
     private string currentTextInput;
     private List<string> texts = new List<string>();
     private string correctText = "Please send help ASAP. There's a man who broke in to the house and he's looking for cookies.";
     private string glitchedText;
+    private int glitchLevel;
     private List<int> correctnessList = new List<int>();
     private int correctIndex;
 
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
         currentTextInput = "";
         correctIndex = 0;
         glitchedText = correctText;
+        glitchLevel = 0;
         screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
     }
 
@@ -62,8 +65,10 @@ public class GameManager : MonoBehaviour
                 currentTextInput = "";
                 correctnessList = new List<int>();
                 correctIndex = 0;
+                glitchLevel = 0;
                 textsIndex = (textsIndex + 1) % texts.Count;
                 correctText = texts[textsIndex];
+                glitchedText = correctText;
                 screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
             }
             else
@@ -136,8 +141,11 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(interval);
             totalTime += interval;
             Power -= amount.Evaluate(totalTime);
+            int currentGlitch = glitchLevels[(int)(Power / 10)];
+            glitchedText = ReplaceTextSymbols(glitchedText, currentGlitch - glitchLevel);
+            glitchLevel = currentGlitch;
             screen.SetBatteryText(power);
-            screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
+            screen.UpdateScreenText(glitchedText, correctnessList.ToArray(), Power);
         }
     }
 }

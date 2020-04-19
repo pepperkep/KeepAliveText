@@ -12,6 +12,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private Color correctColor;
     [SerializeField] private Color wrongColor;
     [SerializeField] private AnimationCurve brightnessChange;
+    [SerializeField] private GameObject endUI;
 
     public void SetBatteryText(float batteryValue)
     {
@@ -91,12 +92,19 @@ public class ScreenManager : MonoBehaviour
                 nextColor = ChangeBrightness(defaultColor, brightnessChange.Evaluate(battery));
             }
 
-            for(int j = 0; j < 4; j++)
+            for(int j = 0; j < 4 && vertexIndex < nextColors.Length; j++)
             {
                 nextColors[vertexIndex + j] = nextColor;
             }
         }
         mainText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+    }
+
+    public void GameEnd()
+    {
+        batteryText.gameObject.SetActive(false);
+        mainText.gameObject.SetActive(false);
+        endUI.SetActive(true);
     }
 
     private Color ChangeBrightness(Color originalColor, float brightnessLevel)

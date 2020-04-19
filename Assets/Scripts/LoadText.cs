@@ -28,7 +28,8 @@ public class LoadText : MonoBehaviour
           var arrayString = ta.text.Split('\n');
           foreach (var line in arrayString)
           {
-              listToReturn.Add(line);
+              string nextText = line.Replace("\\n", "\n");
+              listToReturn.Add(nextText);
           }
           return listToReturn;
     }

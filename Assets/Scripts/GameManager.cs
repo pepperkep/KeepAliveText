@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private int glitchLevel;
     private List<int> correctnessList = new List<int>();
     private int correctIndex;
+    private bool gameOver = false;
 
     public float Power
     {
@@ -47,49 +48,54 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (char c in Input.inputString)
+        if(!gameOver)
         {
-            if (c == '\b') // has backspace/delete been pressed?
+            foreach (char c in Input.inputString)
             {
-                if (currentTextInput.Length != 0)
+                if (c == '\b') // has backspace/delete been pressed?
                 {
-                    currentTextInput = currentTextInput.Substring(0, currentTextInput.Length - 1);
-                    screen.UpdateCharacterColor(correctnessList.Count - 1, 0, Power);
-                    correctnessList.RemoveAt(correctnessList.Count - 1);
-                    correctIndex--;
-                }
-            }
-            else if ((c == '\n') || (c == '\r')) // enter/return
-            {
-                AddBattery(correctnessList);
-                currentTextInput = "";
-                correctnessList = new List<int>();
-                correctIndex = 0;
-                glitchLevel = 0;
-                textsIndex = (textsIndex + 1) % texts.Count;
-                correctText = texts[textsIndex];
-                glitchedText = correctText;
-                screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
-            }
-            else
-            {
-                currentTextInput += c;
-                if(correctIndex < correctText.Length)
-                {
-                    if(c == correctText[correctIndex] || c == ' ' && correctText[correctIndex] == '\n')
+                    if (currentTextInput.Length != 0)
                     {
-                        screen.UpdateCharacterColor(correctnessList.Count, 1, Power);
-                        correctnessList.Add(1);
-                    }
-                    else
-                    {
-                        screen.UpdateCharacterColor(correctnessList.Count, 2, Power);
-                        correctnessList.Add(2);
+                        currentTextInput = currentTextInput.Substring(0, currentTextInput.Length - 1);
+                        screen.UpdateCharacterColor(correctnessList.Count - 1, 0, Power);
+                        correctnessList.RemoveAt(correctnessList.Count - 1);
+                        correctIndex--;
                     }
                 }
-                correctIndex++;
+                else if ((c == '\n') || (c == '\r')) // enter/return
+                {
+                    AddBattery(correctnessList);
+                    currentTextInput = "";
+                    correctnessList = new List<int>();
+                    correctIndex = 0;
+                    glitchLevel = 0;
+                    textsIndex = (textsIndex + 1) % texts.Count;
+                    correctText = texts[textsIndex];
+                    glitchedText = correctText;
+                    screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
+                }
+                else
+                {
+                    currentTextInput += c;
+                    if(correctIndex < correctText.Length)
+                    {
+                        if(c == correctText[correctIndex] || c == ' ' && correctText[correctIndex] == '\n')
+                        {
+                            screen.UpdateCharacterColor(correctnessList.Count, 1, Power);
+                            correctnessList.Add(1);
+                        }
+                        else
+                        {
+                            screen.UpdateCharacterColor(correctnessList.Count, 2, Power);
+                            correctnessList.Add(2);
+                        }
+                    }
+                    correctIndex++;
+                }
             }
         }
+        else
+            screen.GameEnd();
     }
 
     private void AddBattery(List<int> correctness)
@@ -120,8 +126,11 @@ public class GameManager : MonoBehaviour
             Power = 100;
         else
             Power += addedEnergy;
-        screen.SetBatteryText(power);
-        screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
+        screen.SetBatteryText(Power);
+        if(Power < 0)
+            gameOver = true;
+        else
+            screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
     }
 
     private string ReplaceTextSymbols(string originalText, int glitchAmount)
@@ -154,9 +163,9 @@ public class GameManager : MonoBehaviour
     private IEnumerator DrainBattery(AnimationCurve amount, float interval)
     {
         float totalTime = 0;
+        yield return new WaitForSeconds(interval);
         while(Power > 0)
         {
-            yield return new WaitForSeconds(interval);
             totalTime += interval;
             Power -= amount.Evaluate(totalTime);
             int currentGlitch = glitchLevels[(int)(Power / 10)];
@@ -164,6 +173,8 @@ public class GameManager : MonoBehaviour
             glitchLevel = currentGlitch;
             screen.SetBatteryText(power);
             screen.UpdateScreenText(glitchedText, correctnessList.ToArray(), Power);
+            yield return new WaitForSeconds(interval);
         }
+        gameOver = true;
     }
 }

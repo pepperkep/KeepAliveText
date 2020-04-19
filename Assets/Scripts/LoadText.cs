@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-
-
-
 public class LoadText : MonoBehaviour
 {
 

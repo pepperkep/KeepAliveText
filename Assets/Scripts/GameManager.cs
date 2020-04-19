@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator drainRoutine;
     private string currentTextInput;
     private List<string> texts = new List<string>();
-    private string correctText = "Please send help ASAP. There's a man who broke in to the house and he's looking for cookies.";
+    private string correctText = "Please send help ASAP. There's a man who broke into the house and he's looking for cookies.";
     private string glitchedText;
     private int glitchLevel;
     private List<int> correctnessList = new List<int>();
@@ -74,16 +74,18 @@ public class GameManager : MonoBehaviour
             else
             {
                 currentTextInput += c;
-                if(correctIndex < correctText.Length && (c == correctText[correctIndex] ||
-                    (c == ' ' && correctText[correctIndex] == '\n')))
+                if(correctIndex < correctText.Length)
                 {
-                    screen.UpdateCharacterColor(correctnessList.Count, 1, Power);
-                    correctnessList.Add(1);
-                }
-                else
-                {
-                    screen.UpdateCharacterColor(correctnessList.Count, 2, Power);
-                    correctnessList.Add(2);
+                    if(c == correctText[correctIndex] || c == ' ' && correctText[correctIndex] == '\n')
+                    {
+                        screen.UpdateCharacterColor(correctnessList.Count, 1, Power);
+                        correctnessList.Add(1);
+                    }
+                    else
+                    {
+                        screen.UpdateCharacterColor(correctnessList.Count, 2, Power);
+                        correctnessList.Add(2);
+                    }
                 }
                 correctIndex++;
             }
@@ -95,7 +97,23 @@ public class GameManager : MonoBehaviour
         float addedEnergy = 0;
         for(int i = 0; i < correctness.Count; i++)
         {
-            addedEnergy += correctness[i];
+            switch(correctness[i])
+            {
+                case 1:
+                    addedEnergy++;
+                    break;
+                case 2:
+                    addedEnergy--;
+                    break;
+                default:
+                    addedEnergy -= 0.5f;
+                    break;
+            }
+        }
+        float charsLeft = correctText.Length - correctness.Count;
+        if(charsLeft > 0)
+        {
+            addedEnergy -= charsLeft * 0.5f;
         }
         addedEnergy /= correctnessToEnergyConversion;
         if(Power + addedEnergy > 100)

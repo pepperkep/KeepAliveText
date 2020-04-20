@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     private bool lowHealth=false;
     private bool gameOver = false;
     private bool pause = false;
+    private bool hasWon = false;
 
     public float Power
     {
@@ -93,10 +94,20 @@ public class GameManager : MonoBehaviour
                     correctIndex = 0;
                     glitchLevel = 0;
                     columnLevel = 0;
-                    textsIndex = (textsIndex + 1) % texts.Count;
-                    correctText = texts[textsIndex];
-                    glitchedText = correctText;
-                    screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
+                    textsIndex = (textsIndex + 1);
+                    if(textsIndex == texts.Count - 1)
+                    {
+                        screen.GameEnd(true);
+                        hasWon = true;
+                        gameOver = true;
+                        JukeBox.Instance().playWinSound();
+                    }
+                    else
+                    {
+                        correctText = texts[textsIndex];
+                        glitchedText = correctText;
+                        screen.UpdateScreenText(correctText, correctnessList.ToArray(), Power);
+                    }
                 }
                 else
                 {
@@ -121,11 +132,13 @@ public class GameManager : MonoBehaviour
             }
         }
         if(gameOver)
-            screen.GameEnd();
+        {
+            if(!hasWon)
+                screen.GameEnd(false);
+            else
+                screen.GameEnd(true);
+        }
 
-        if(correctText==texts[texts.Count-1]){
-            JukeBox.Instance().playWinSound();
-          }
         if(Input.GetKeyDown("escape"))
         {
             pause = !pause;
@@ -196,13 +209,16 @@ public class GameManager : MonoBehaviour
                 int glitchIndex = Random.Range(0, words.Length);
                 string glitchWord = words[glitchIndex];
                 int letterIndex = Random.Range(0, (new StringInfo(glitchWord)).LengthInTextElements);
-                if(glitchWord[letterIndex] != '\n')
+                if(glitchWord.Length != 0)
                 {
-                    if(letterIndex != glitchWord.Length - 1)
-                        words[glitchIndex] = glitchWord.Substring(0, letterIndex) + glitchingCharacters[Random.Range(0, glitchingCharacters.Count)]
-                                                    + glitchWord.Substring(letterIndex + 1);
-                    else
-                        words[glitchIndex] = glitchWord.Substring(0, letterIndex) + glitchingCharacters[Random.Range(0, glitchingCharacters.Count)];
+                    if(glitchWord[letterIndex] != '\n')
+                    {
+                        if(letterIndex != glitchWord.Length - 1)
+                            words[glitchIndex] = glitchWord.Substring(0, letterIndex) + glitchingCharacters[Random.Range(0, glitchingCharacters.Count)]
+                                                        + glitchWord.Substring(letterIndex + 1);
+                        else
+                            words[glitchIndex] = glitchWord.Substring(0, letterIndex) + glitchingCharacters[Random.Range(0, glitchingCharacters.Count)];
+                    }
                 }
             }
         }

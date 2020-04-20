@@ -347,24 +347,33 @@ MonoBehaviour:
       time: 0
       value: 0.2
       inSlope: 0
-      outSlope: 0.01651983
+      outSlope: 0.0008967151
       tangentMode: 5
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.39142656
+      outWeight: 0.38358322
     - serializedVersion: 3
-      time: 20
+      time: 21.954548
+      value: 0.229244
+      inSlope: 0.003811881
+      outSlope: 0.07423112
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.48519024
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 30
       value: 1.5
       inSlope: 0.24441116
-      outSlope: 0.005263158
+      outSlope: 0.004054054
       tangentMode: 65
       weightedMode: 0
       inWeight: 0.033469774
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 400
-      value: 3.5
-      inSlope: 0.005263158
+      value: 3
+      inSlope: 0.004054054
       outSlope: 0
       tangentMode: 69
       weightedMode: 0
@@ -382,7 +391,7 @@ MonoBehaviour:
   glitchLevels: 0c00000009000000080000000600000004000000030000000200000001000000010000000000000000000000
   columnSwapLevels: 0500000004000000030000000200000002000000010000000100000001000000000000000000000000000000
   maxColumnToSwap: 28
-  pauseMenu: {fileID: 0}
+  pauseMenu: {fileID: 1662841428}
 --- !u!4 &362914673
 Transform:
   m_ObjectHideFlags: 0

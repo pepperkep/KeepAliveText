@@ -141,14 +141,15 @@ public class ScreenManager : MonoBehaviour
         mainText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
     }
 
-    public void GameEnd()
+    public void GameEnd(bool hasWon)
     {
         GetComponent<Animator>().enabled = false;
         GetComponent<Flicker>().enabled = false;
         batteryText.gameObject.SetActive(false);
         mainText.gameObject.SetActive(false);
         endUI.SetActive(true);
-        creditsText.gameObject.SetActive(true);
+        if(hasWon)
+            creditsText.gameObject.SetActive(true);
     }
 
     private void SwapTextColumns(int columnToSwap)

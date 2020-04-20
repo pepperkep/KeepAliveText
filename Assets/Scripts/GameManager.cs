@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -161,7 +162,7 @@ public class GameManager : MonoBehaviour
             {
                 int glitchIndex = Random.Range(0, words.Length);
                 string glitchWord = words[glitchIndex];
-                int letterIndex = Random.Range(0, glitchWord.Length - 1);
+                int letterIndex = Random.Range(0, (new StringInfo(glitchWord)).LengthInTextElements);
                 if(glitchWord[letterIndex] != '\n')
                 {
                     if(letterIndex != glitchWord.Length - 1)

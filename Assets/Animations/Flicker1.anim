@@ -78,7 +78,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: Text (TMP)
+    path: BatteryPercent
     classID: 1
     script: {fileID: 0}
   - curve:
@@ -142,7 +142,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: BatteryPercent
+    path: Main Text
     classID: 1
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -154,14 +154,14 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 271242783
+      path: 2724010685
       attribute: 2086281974
       script: {fileID: 0}
       typeID: 1
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 2724010685
+      path: 2189020966
       attribute: 2086281974
       script: {fileID: 0}
       typeID: 1
@@ -250,7 +250,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: Text (TMP)
+    path: BatteryPercent
     classID: 1
     script: {fileID: 0}
   - curve:
@@ -314,7 +314,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: BatteryPercent
+    path: Main Text
     classID: 1
     script: {fileID: 0}
   m_EulerEditorCurves: []

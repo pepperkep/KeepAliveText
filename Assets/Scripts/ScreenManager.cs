@@ -8,6 +8,7 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI batteryText;
     [SerializeField] private TextMeshProUGUI mainText;
+    [SerializeField] private TextMeshProUGUI creditsText;
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color correctColor;
     [SerializeField] private Color wrongColor;
@@ -72,6 +73,7 @@ public class ScreenManager : MonoBehaviour
      */
     public void UpdateScreenText(string screenText, int[] correctnessValues, float battery, List<int> columnsToSwap = null)
     {
+      creditsText.gameObject.SetActive(false);
         mainText.text = screenText;
         mainText.ForceMeshUpdate();
         //SwapTextColumns(29);
@@ -128,6 +130,7 @@ public class ScreenManager : MonoBehaviour
         batteryText.gameObject.SetActive(false);
         mainText.gameObject.SetActive(false);
         endUI.SetActive(true);
+        creditsText.gameObject.SetActive(true);
     }
 
     private void SwapTextColumns(int columnToSwap)

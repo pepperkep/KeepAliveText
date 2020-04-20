@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
             GameManager._instance = this;
         }
     }
-       
+
     [SerializeField] private float power = 100f;
     [SerializeField] private AnimationCurve drainAmount;
     [SerializeField] private float drainInterval = 1f;
@@ -120,6 +120,9 @@ public class GameManager : MonoBehaviour
         }
         else
             screen.GameEnd();
+        if(correctText==texts[texts.Count-1]){
+          JukeBox.Instance().playWinSound();
+        }
     }
 
     private void AddBattery(List<int> correctness)

@@ -123,6 +123,8 @@ public class ScreenManager : MonoBehaviour
 
     public void GameEnd()
     {
+        GetComponent<Animator>().enabled = false;
+        GetComponent<Flicker>().enabled = false;
         batteryText.gameObject.SetActive(false);
         mainText.gameObject.SetActive(false);
         endUI.SetActive(true);

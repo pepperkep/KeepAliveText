@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<int> glitchLevels;
     [SerializeField] private List<int> columnSwapLevels;
     [SerializeField] private int maxColumnToSwap = 28;
+    [SerializeField] private GameObject pauseMenu;
     private int textsIndex = 0;
     private IEnumerator drainRoutine;
     private string currentTextInput;
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
     private int correctIndex;
     private bool lowHealth=false;
     private bool gameOver = false;
+    private bool pause = false;
 
     public float Power
     {
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!gameOver)
+        if(!gameOver && !pause)
         {
             foreach (char c in Input.inputString)
             {
@@ -118,10 +120,25 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        else
+        if(gameOver)
             screen.GameEnd();
+
         if(correctText==texts[texts.Count-1]){
-          JukeBox.Instance().playWinSound();
+            JukeBox.Instance().playWinSound();
+          }
+        if(Input.GetKeyDown("escape"))
+        {
+            pause = !pause;
+            if(pause)
+            {
+                Time.timeScale = 0;
+                pauseMenu.SetActive(true);
+            }
+            else
+            {
+                Time.timeScale = 1;
+                pauseMenu.SetActive(false);
+            }
         }
     }
 

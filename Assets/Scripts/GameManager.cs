@@ -5,6 +5,19 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager _instance;
+    public static GameManager Instance() { return _instance; }
+
+    private void Awake()
+    {
+        if(_instance != null)
+            Destroy(this.gameObject);
+        else
+        {
+            GameManager._instance = this;
+        }
+    }
+       
     [SerializeField] private float power = 100f;
     [SerializeField] private AnimationCurve drainAmount;
     [SerializeField] private float drainInterval = 1f;

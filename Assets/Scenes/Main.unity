@@ -303,7 +303,7 @@ MonoBehaviour:
   drainInterval: 1
   correctnessToEnergyConversion: 2
   screen: {fileID: 1211924691}
-  glitchingCharacters: b300ba25a4003020d7005e202620f000a7007c003c003e003b0040005e002a007b007d00ae007e00
+  glitchingCharacters: b3007e00a4003020d7007d00ae00f000a7007c003c003e003b0040005e002a007b00
   minGlitchAmount: 1
   maxGlitchAmount: 3
   glitchLevels: 0c00000009000000080000000600000004000000030000000200000001000000010000000000000000000000
@@ -1872,6 +1872,8 @@ GameObject:
   - component: {fileID: 1211924688}
   - component: {fileID: 1211924687}
   - component: {fileID: 1211924691}
+  - component: {fileID: 1211924692}
+  - component: {fileID: 1211924693}
   m_Layer: 5
   m_Name: Screen
   m_TagString: Untagged
@@ -2003,6 +2005,119 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   endUI: {fileID: 1166802811}
+--- !u!95 &1211924692
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211924686}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: af0ea21cd8c6a4570a61676587b7b9be, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1211924693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211924686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4aff65cee9e6b59a13b92089897240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flicker1Prob:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 100
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flicker2Prob:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.04
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 100
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flicker3Prob:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: -0.00005669481
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.069293484
+    - serializedVersion: 3
+      time: 40
+      value: 0.02
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 100
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  checkFlickerTime: 5
 --- !u!1001 &1414744167
 PrefabInstance:
   m_ObjectHideFlags: 0

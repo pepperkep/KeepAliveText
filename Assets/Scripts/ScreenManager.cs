@@ -13,6 +13,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private Color wrongColor;
     [SerializeField] private AnimationCurve brightnessChange;
     [SerializeField] private GameObject endUI;
+    [SerializeField] private float wrongOffset = -0.01f;
 
     public string Text
     {
@@ -41,6 +42,7 @@ public class ScreenManager : MonoBehaviour
     {
         int materialIndex = mainText.textInfo.characterInfo[characterIndex].materialReferenceIndex;
         Color32[] nextColors = mainText.textInfo.meshInfo[materialIndex].colors32;
+        Vector3[] vertices = mainText.textInfo.meshInfo[materialIndex].vertices;
         int vertexIndex = mainText.textInfo.characterInfo[characterIndex].vertexIndex;
 
         if(mainText.textInfo.characterInfo[characterIndex].character == 32 || !mainText.textInfo.characterInfo[characterIndex].isVisible)
@@ -63,6 +65,16 @@ public class ScreenManager : MonoBehaviour
         for(int j = 0; j < 4; j++)
         {
             nextColors[vertexIndex + j] = nextColor;
+            if(correctnessValue == 2)
+            {
+                vertices[vertexIndex + j].y += wrongOffset;
+            }
+        }
+        if(correctnessValue == 2)
+        {
+            mainText.textInfo.meshInfo[materialIndex].mesh.vertices = mainText.textInfo.meshInfo[materialIndex].vertices;
+            mainText.UpdateGeometry(mainText.textInfo.meshInfo[materialIndex].mesh, materialIndex);
+
         }
         mainText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
     }
@@ -74,7 +86,6 @@ public class ScreenManager : MonoBehaviour
     {
         mainText.text = screenText;
         mainText.ForceMeshUpdate();
-        //SwapTextColumns(29);
         if(columnsToSwap != null)
         {
             for(int i = 0; i < columnsToSwap.Count; i++)
@@ -85,6 +96,7 @@ public class ScreenManager : MonoBehaviour
         int characterCount = mainText.textInfo.characterCount;
         int materialIndex = mainText.textInfo.characterInfo[0].materialReferenceIndex;
         Color32[] nextColors = mainText.textInfo.meshInfo[materialIndex].colors32;
+        Vector3[] vertices = mainText.textInfo.meshInfo[materialIndex].vertices;
         for(int i = 0; i < characterCount; i++)
         {
             int vertexIndex = mainText.textInfo.characterInfo[i].vertexIndex;
@@ -116,8 +128,14 @@ public class ScreenManager : MonoBehaviour
             for(int j = 0; j < 4 && vertexIndex < nextColors.Length; j++)
             {
                 nextColors[vertexIndex + j] = nextColor;
+                if(i < correctnessValues.Length && correctnessValues[i] == 2)
+                {
+                    vertices[vertexIndex + j].y += wrongOffset;
+                }
             }
         }
+        mainText.textInfo.meshInfo[materialIndex].mesh.vertices = mainText.textInfo.meshInfo[materialIndex].vertices;
+        mainText.UpdateGeometry(mainText.textInfo.meshInfo[materialIndex].mesh, materialIndex);
         mainText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
     }
 

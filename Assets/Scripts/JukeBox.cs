@@ -39,9 +39,9 @@ public class JukeBox : MonoBehaviour
 
     void Start()
     {
-        music.Play();
         alternateMusic.Play();
         alternateMusic.Pause();
+        music.Play();
 
         if(keepOnSceneChange)
             DontDestroyOnLoad(this.gameObject);

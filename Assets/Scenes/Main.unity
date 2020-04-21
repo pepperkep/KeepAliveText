@@ -1198,7 +1198,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b6c1b0438705b47ee849ad47e6629fbd, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.255
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1294,7 +1294,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 32d4b1811dda14a6cb9e059ee8ad17d2, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.239
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1588,7 +1588,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 43
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1679,7 +1679,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music: {fileID: 921463626}
-  alternateMusic: {fileID: 0}
   winSound: {fileID: 921463625}
   loseSound: {fileID: 921463624}
   rightWordSound: {fileID: 921463623}
@@ -2324,7 +2323,7 @@ MonoBehaviour:
   m_fontColorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
-  m_overrideHtmlColors: 1
+  m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
